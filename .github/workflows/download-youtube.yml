@@ -17,16 +17,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Deno (JS Runtime)
+        uses: denoland/setup-deno@v1
         with:
-          node-version: '20'
+          deno-version: v1.x
 
-      - name: Install yt-dlp and ffmpeg
+      - name: Install yt-dlp Nightly and ffmpeg
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-          sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
+          sudo wget https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
           sudo chmod a+rx /usr/local/bin/yt-dlp
 
       - name: Save Cookies File
