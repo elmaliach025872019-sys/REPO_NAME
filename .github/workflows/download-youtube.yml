@@ -36,8 +36,7 @@ jobs:
         run: |
           yt-dlp --no-check-certificate \
             --cookies cookies.txt \
-            --extractor-args "youtube:player_client=android,web" \
-            -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" \
+            -f "bv*+ba/b" \
             --merge-output-format mp4 \
             -o "downloaded_video.mp4" \
             "${{ github.event.inputs.youtube_url }}"
