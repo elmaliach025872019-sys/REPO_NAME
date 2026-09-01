@@ -17,29 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Deno (JS Runtime)
-        uses: denoland/setup-deno@v1
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          deno-version: v1.x
+          python-version: '3.x'
 
-      - name: Install yt-dlp Nightly and ffmpeg
+      - name: Download Video via Custom Script
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-          sudo wget https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
-          sudo chmod a+rx /usr/local/bin/yt-dlp
-
-      - name: Save Cookies File
-        run: echo "${{ secrets.YOUTUBE_COOKIES }}" > cookies.txt
-
-      - name: Download Video
-        run: |
-          yt-dlp --no-check-certificate \
-            --cookies cookies.txt \
-            -f "bv*+ba/b" \
-            --merge-output-format mp4 \
-            -o "downloaded_video.mp4" \
-            "${{ github.event.inputs.youtube_url }}"
+          python download.py "${{ github.event.inputs.youtube_url }}"
 
       - name: Create Release and Upload Video
         uses: softprops/action-gh-release@v2
